@@ -70,7 +70,7 @@ the policy data itself.
   server certificate is issued for that specific hostname.
 - Ports `9100`-`9102` reachable from wherever you'll administer the hub from
   and wherever partner federations will connect from.
-- If the box already runs a TAK Server / OpenTAKServer install, be aware it
+- If the box already runs a TAK Server install, be aware it
   likely already holds port `8080` for its own insecure HTTP listener -- see
   [Known issues](#known-issues-in-this-federation-hub-release).
 

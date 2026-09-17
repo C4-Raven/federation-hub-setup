@@ -1,6 +1,6 @@
 #!/bin/bash
 # Step 3: generate a DEDICATED Federation Hub CA (kept separate from your
-# OpenTAKServer/EUD CA at /home/tak/ots/ca, per your earlier decision), plus
+# Raven/EUD CA at /home/tak/ots/ca, per your earlier decision), plus
 # a server cert (tak.c4raven.net) and one admin client cert (fedhub-admin).
 # Requires 01-base-install.sh to have completed. Run: bash 03-generate-certs.sh
 set -euo pipefail
