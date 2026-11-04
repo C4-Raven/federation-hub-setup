@@ -156,6 +156,7 @@ an outbound connection:
 
 | Symptom | Likely cause |
 | --- | --- |
+| `federation-hub` shows `failed` and never comes back after a crash or `kill` | Installed with an older `04-finish-and-start.sh`, whose unit had no `Restart=`. Upgrade the unit with [c4raven-updater](https://github.com/C4-Raven/c4raven-updater)'s `./install-fedhub.sh --repair-unit` (or re-create it from the current `04-finish-and-start.sh`), then `sudo systemctl start federation-hub`. |
 | `federation-hub` service fails to start, no port `9100` in `ss` output | Something else already holds the port the UI's leftover default connector wants -- see [Known issues](#known-issues-in-this-federation-hub-release). |
 | MongoDB connection refused in the broker/UI logs | `02-mongo-auth.sh` didn't complete, or MongoDB was restarted with a different config afterward -- check `sudo systemctl status mongod`. |
 | Browser shows "not secure" on the admin console | Expected -- the server cert is signed by this hub's own dedicated CA, not a public one, so no browser will trust it by default. Import `fedhub-admin.p12` as a client cert; that's what actually gates login, separately from the server cert's trust. |

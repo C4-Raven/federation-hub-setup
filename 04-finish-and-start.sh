@@ -32,6 +32,9 @@ sudo sed -i \
 sudo chown tak:tak "$CFG"/federation-hub-broker.yml "$CFG"/federation-hub-ui.yml
 
 # --- register the systemd unit (skipped by postinst on non-RHEL) ---
+# Supervised: bash waits for the FIRST of the four parts to exit (wait -n) and
+# then fails, so systemd stops the other three and restarts all four. A plain
+# `wait` with RemainAfterExit=yes left a dead or killed hub down for good.
 sudo bash -c 'cat > /etc/systemd/system/federation-hub.service <<EOF
 [Unit]
 Description=Federation Hub Service
@@ -41,8 +44,9 @@ Requires=mongod.service
 [Service]
 Type=simple
 WorkingDirectory=/opt/tak/federation-hub/scripts
-ExecStart=/bin/bash -c "./federation-hub-policy.sh & ./federation-hub-plugin-manager.sh & ./federation-hub-ui.sh & ./federation-hub-broker.sh & wait"
-RemainAfterExit=yes
+ExecStart=/bin/bash -c "./federation-hub-policy.sh & ./federation-hub-plugin-manager.sh & ./federation-hub-ui.sh & ./federation-hub-broker.sh & wait -n; exit 1"
+Restart=on-failure
+RestartSec=10s
 User=tak
 Group=tak
 StandardOutput=journal
